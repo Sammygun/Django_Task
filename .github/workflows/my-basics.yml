@@ -35,11 +35,24 @@ jobs:
   my_deploy:
       runs-on: ubuntu-latest   # если несколько тогда в скобках 
       needs: [my_testing]  # по сути просто указываю что my_deploy джоба выполняется только после my_testing 
+      env:
+        VAR1 : "This is Job Level Varaible1" # это переменные которые только внутри конкретной джобы есть 
+        VAR2 : "This is Job Level Varaible2"   
       steps:
       - name: Print Hello Message in Deploy
         run:  echo "Hello World from Deploy job"
-        
-        # ниже пример использования второй переменной выше 
+      
+      #выше мы создали внутренние переменные здесь мы их вызываем  выводим на экран грубо говоря 
+      - name: Print env vars 
+        run : |
+           echo "Var1 = ${{ env.VAR1 }}"  
+           echo "Var2 = ${{ env.VAR1 }}"
+           echo "Var3 = $LOCAL_VAR"
+        env: 
+          LOCAL_VAR: "This is Super Local Environment variable"
+          
+           
+        # ниже пример использования второй глобальной переменной выше 
       - name: Printing Deployment package    
         run: echo "Deploy pakcage name is ${{ env.DEPLOY_PACKAGE_NAME }}" 
         
