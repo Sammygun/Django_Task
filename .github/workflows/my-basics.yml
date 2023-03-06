@@ -27,6 +27,11 @@ jobs:
          echo "Hello Message2"
          echo "Application name: ${{ env.APPLICATION_NAME }}"
 
+     - name: Git clone my repo 
+       uses: actions/checkout@v1    # один из первых степов клаинирует весь репозиторий   
+     - name: List corrent folder 
+       run : ls -la   # просто список смотрим   
+
   my_deploy:
       runs-on: ubuntu-latest   # если несколько тогда в скобках 
       needs: [my_testing]  # по сути просто указываю что my_deploy джоба выполняется только после my_testing 
@@ -37,3 +42,10 @@ jobs:
         # ниже пример использования второй переменной выше 
       - name: Printing Deployment package    
         run: echo "Deploy pakcage name is ${{ env.DEPLOY_PACKAGE_NAME }}" 
+        
+      - name: Lets test some packages if they are here 1 
+        run: aws --version  # запустим данную команду  
+      
+      - name: Lets test some packages if they are here 2 
+        run: zip  #проверим наличие zip  
+ 
