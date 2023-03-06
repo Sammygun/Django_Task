@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Github 
+
+name: My-GitHubActions-Basics 
+env: 
+  APPLICATION_NAME: "MyFlask"
+  PACKAGE_NAME    : "flask-deploy-ver-${{ github.sha }}"   # чтобы присваивала на каждый commit длинное значение 
+   
+on:         # on [push]   по сути мы здесь указываем условие что должно запуститься при определенном событии
+   push:
+     branches:
+         - master   # когда кто-то пушит код в мастер  
+# между on и [push]  # нажми control + space выскачать подсказки 
+jobs:
+  my_testing: # одна наш джоба 
+  
+     runs-on: ubuntu-latest   # по сути gfit hub action запускает контенер на ubuntu и использует 
+     
+     # steps это таски как в ansible tasks 
+     steps:
+     - name: Print Hello Message in Testing
+       run:  echo "Hello World from Testing job"   # по сути просто команда linux 
+ 
+  my_deploy:
+      runs-on: ubuntu-latest   # если несколько тогда в скобках 
+      needs: [my_testing]  # по сути просто указываю что my_deploy джоба выполняется только после my_testing 
+      steps:
+      - name: Print Hello Message in Deploy
+        run:  echo "Hello World from Deploy job"
+      
