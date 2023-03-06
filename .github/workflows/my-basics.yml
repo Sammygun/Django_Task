@@ -2,9 +2,9 @@
 # Github 
 
 name: My-GitHubActions-Basics 
-env: 
-  APPLICATION_NAME: "MyFlask"
-  PACKAGE_NAME    : "flask-deploy-ver-${{ github.sha }}"   # чтобы присваивала на каждый commit длинное значение 
+env:   # переменные окружения создаем 
+  APPLICATION_NAME     : "MyFlask"
+  DEPLOY_PACKAGE_NAME  : "flask-deploy-ver-${{ github.sha }}"   # чтобы присваивала на каждый commit 09a5b0d
    
 on:         # on [push]   по сути мы здесь указываем условие что должно запуститься при определенном событии
    push:
@@ -20,11 +20,20 @@ jobs:
      steps:
      - name: Print Hello Message in Testing
        run:  echo "Hello World from Testing job"   # по сути просто команда linux 
- 
+     - name: Execure few commands
+     # ниже пример вызова переменных окружений env 
+       run : |
+         echo "Hello Message1"
+         echo "Hello Message2"
+         echo "Application name: ${{ env.APPLICATION_NAME }}"
+
   my_deploy:
       runs-on: ubuntu-latest   # если несколько тогда в скобках 
       needs: [my_testing]  # по сути просто указываю что my_deploy джоба выполняется только после my_testing 
       steps:
       - name: Print Hello Message in Deploy
         run:  echo "Hello World from Deploy job"
-      
+        
+        # ниже пример использования второй переменной выше 
+      - name: Printing Deployment package    
+        run: echo "Deploy pakcage name is ${{ env.DEPLOY_PACKAGE_NAME }}" 
